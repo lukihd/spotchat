@@ -1,8 +1,7 @@
 import 'package:chat/src/models/user.dart';
-import 'package:chat/src/services/user_service.dart';
+import 'package:chat/src/services/user/user_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rethink_db_ns/rethink_db_ns.dart';
-
 import 'helper.dart';
 
 void main() {
@@ -17,7 +16,7 @@ void main() {
   });
 
   tearDown(() async {
-    // await cleanDB(r, c!);
+    await cleanDB(r, c!);
   });
 
   test("Creates a new user document in database", () async {
