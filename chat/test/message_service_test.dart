@@ -1,6 +1,9 @@
 import 'package:chat/src/models/message.dart';
 import 'package:chat/src/models/user.dart';
+import 'package:chat/src/services/encryption/encryption_service.dart';
+import 'package:chat/src/services/encryption/encryption_service_interface.dart';
 import 'package:chat/src/services/message/message_service.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rethink_db_ns/rethink_db_ns.dart';
 import 'helper.dart';
@@ -9,11 +12,14 @@ void main() {
   RethinkDb r = RethinkDb();
   Connection? c;
   MessageService? messageService;
+  IEncryptionService encryptionService;
 
   setUp(() async {
     c = await r.connect(host: "localhost", port: 28015);
     await createDB(r, c!);
-    messageService = MessageService(r, c!);
+    final encrypter = Encrypter(AES(Key.fromLength(32)));
+    encryptionService = EncryptionService(encrypter);
+    messageService = MessageService(r, c!, encryptionService);
   });
 
   tearDown(() async {
