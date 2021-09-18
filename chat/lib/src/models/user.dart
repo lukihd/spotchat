@@ -18,7 +18,7 @@ class User {
       required this.active,
       required this.lastSeen});
 
-  // convert from dart User object to json
+  // Convert from dart object to json object for database
   toJson() => {
         'username': username,
         'photoUrl': photoUrl,
@@ -26,7 +26,7 @@ class User {
         'lastSeen': lastSeen
       };
 
-  // convert JSON User object to dart object
+  // convert from JSON to dart object from database
   factory User.fromJson(Map<String, dynamic> json) {
     final user = User(
         username: json['username'],
